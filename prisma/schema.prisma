@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+model Profile {
+  id                          String   @id @default(cuid())
+  userId                      String   @unique
+  firstName                   String
+  lastName                    String?
+  email                       String
+  companyName                 String?
+  companyIdentificationNumber String?
+  gln                         String?
+  companyAddress              String?
+  zip                         String?
+  city                        String?
+  country                     String?
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  Product Product[]
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  profileId       String
+  brand           String
+  name            String
+  category        String
+  sugarContent    String?
+  typeOfWine      String
+  gramsOfAlchocol String
+  alcoholContents String
+  bestBefore      String?
+  gtin            String
+  lot             String
+  images          String[]
+  videoUrl        String?
+  //TODO: add rest of props
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  profile         Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
