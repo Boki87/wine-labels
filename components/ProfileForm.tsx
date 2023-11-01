@@ -16,7 +16,6 @@ import { Button } from "./ui/button";
 import { updateProfile } from "@/actions/profile";
 import CountrySelect from "@/components/CountrySelect";
 import useCountries from "@/hooks/useCountries";
-import { useRouter } from "next/navigation";
 import { Save } from "lucide-react";
 
 interface ProfileFormProps {
@@ -24,7 +23,6 @@ interface ProfileFormProps {
 }
 
 function ProfileForm({ profile }: ProfileFormProps) {
-  const router = useRouter();
   const form = useForm<profileSchemaType>({
     defaultValues: profile,
     resolver: zodResolver(profileSchema),
@@ -33,10 +31,8 @@ function ProfileForm({ profile }: ProfileFormProps) {
   const { getByValue } = useCountries();
 
   async function onSubmit(values: profileSchemaType) {
-    // console.log(values);
     try {
       await updateProfile(values);
-      router.refresh();
     } catch (e) {
       console.log(e);
     }
@@ -46,7 +42,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
     <div className="max-w-4xl mx-auto">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h2 className="font-bold text-lg mb-1">User details</h2>
+          <h2 className="font-bold text-lg mb-1 mt-6">User details</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <FormField
               control={form.control}

@@ -32,20 +32,90 @@ model Profile {
 model Product {
   id              String   @id @default(cuid())
   profileId       String
+  //product information
   brand           String
   name            String
-  category        String
-  sugarContent    String?
-  typeOfWine      String
-  gramsOfAlchocol String
+  category        String   @default("wine")
+  sugarContent    String   @default("not applicable")
+  typeOfWine      String   @default("white")
+  gramsOfAlcohol  String
   alcoholContents String
   bestBefore      String?
   gtin            String
   lot             String
   images          String[]
   videoUrl        String?
-  //TODO: add rest of props
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  profile         Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  //wine details
+  country             String
+  region              String
+  locality            String
+  year                String
+  contents            String
+  package             String
+  designationOfOrigin String
+
+  //protected designation of origin and geographical indication
+  pdo Boolean
+  pgi Boolean
+
+  //ingredients
+  //basic
+  grape                     Boolean @default(false)
+  sucorse                   Boolean @default(false)
+  concentratedGrapeMust     Boolean @default(false)
+  tirageLiquor              Boolean @default(false)
+  //acidity regulators
+  tartaricAcid              Boolean @default(false)
+  malicAcid                 Boolean @default(false)
+  lacticAcid                Boolean @default(false)
+  potassiumTartrate         Boolean @default(false)
+  potassiumBicarbonate      Boolean @default(false)
+  calciumCarbonate          Boolean @default(false)
+  calciumTartrate           Boolean @default(false)
+  calciumSulphate           Boolean @default(false)
+  potassiumCarbonate        Boolean @default(false)
+  //preservatives and antioxidants
+  sulphurDioxide            Boolean @default(false)
+  potassiumBisulphite       Boolean @default(false)
+  potassiumMetabisulphite   Boolean @default(false)
+  potassiumSorbate          Boolean @default(false)
+  lyusozyme                 Boolean @default(false)
+  lAscorbicAcid             Boolean @default(false)
+  dimethylDicarbonate       Boolean @default(false)
+  //stabilizing agents
+  potassiumHydrogenTartrate Boolean @default(false)
+  citricAcid                Boolean @default(false)
+  Tannins                   Boolean @default(false)
+  Histamine                 Boolean @default(false)
+  potassiumFerrocyanide     Boolean @default(false)
+  calciumPhytate            Boolean @default(false)
+  metatarrtaricAcid         Boolean @default(false)
+  gumArabic                 Boolean @default(false)
+  neutralPotassiumSalt      Boolean @default(false)
+  yeastMannoproteins        Boolean @default(false)
+  carboxymethylcellulose    Boolean @default(false)
+  pviPvp                    Boolean @default(false)
+  potassiumPolyspartate     Boolean @default(false)
+  //gases and packaging gases
+  nitroget                  Boolean @default(false)
+  argon                     Boolean @default(false)
+  oxygen                    Boolean @default(false)
+  carbon                    Boolean @default(false)
+
+  //nutrition information
+  energyCal     String
+  energyKj      String
+  fat           String
+  saturatedFats String
+  carbohydrates String
+  sugars        String
+  proteins      String
+  salt          String
+
+  //recycling materials
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }

@@ -1,7 +1,6 @@
 "use client";
 import Select from "react-select";
 import useCountries from "@/hooks/useCountries";
-import { randomUUID } from "crypto";
 
 export type CountrySelectValue = {
   label: string;
@@ -20,7 +19,6 @@ export default function CountrySelect({ value, onChange }: CountrySelectPros) {
     <div>
       <Select
         placeholder="Pick a country"
-        isClearable
         options={getAll()}
         defaultValue={value}
         onChange={(value) => onChange(value as CountrySelectValue)}

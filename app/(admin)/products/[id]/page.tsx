@@ -1,3 +1,4 @@
+import ProductForm from "@/components/ProductForm";
 import React from "react";
 
 interface ProductPageProps {
@@ -8,7 +9,16 @@ interface ProductPageProps {
 
 function ProductPage({ params }: ProductPageProps) {
   const { id } = params;
-  return <div>ProductPage {id}</div>;
+  let product = {};
+  if (id !== "new") {
+    //get product data
+  }
+
+  return (
+    <div>
+      <ProductForm isNew={id === "new"} product={product} />
+    </div>
+  );
 }
 
 export default ProductPage;

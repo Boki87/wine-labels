@@ -3,6 +3,7 @@ import { db } from "@/lib/prisma";
 import { profileSchemaType } from "@/schemas/profile";
 import { currentUser } from "@clerk/nextjs";
 import { Profile } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 class UserNotFoundErr extends Error {}
 
@@ -36,10 +37,12 @@ export async function updateProfile(profile: profileSchemaType) {
     throw new UserNotFoundErr();
   }
 
-  return await db.profile.update({
+  const updatedProfile = await db.profile.update({
     where: {
       userId: user.id,
     },
     data: profile,
   });
+
+  revalidatePath("/profile");
 }

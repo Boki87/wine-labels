@@ -1,4 +1,3 @@
-import { Profile } from "@prisma/client";
 import z from "zod";
 
 const profileSchema = z.object({
