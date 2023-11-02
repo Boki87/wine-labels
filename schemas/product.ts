@@ -1,3 +1,4 @@
+import useCountries from "@/hooks/useCountries";
 import z from "zod";
 
 const productSchema = z.object({
@@ -8,11 +9,17 @@ const productSchema = z.object({
   typeOfWine: z.string().default("white"),
   gramsOfAlcohol: z.string(),
   alcoholContents: z.string(),
-  bestBefore: z.string().nullable().optional(),
+  bestBefore: z.string().optional(),
   gtin: z.string(),
   lot: z.string(),
   images: z.array(z.string()).optional(),
-  videoUrl: z.string().nullable().optional(),
+  videoUrl: z.string().optional(),
+  country: z.string(),
+  region: z.string(),
+  locality: z.string(),
+  year: z.string().default(new Date().getFullYear().toString()),
+  contents: z.string().default("0,25 L"),
+  package: z.string(),
 });
 
 type productSchemaType = z.infer<typeof productSchema>;
@@ -22,7 +29,7 @@ type ProductSchemaKeys = keyof productSchemaType;
 export type ProductMapType = {
   label: string;
   key: ProductSchemaKeys;
-  options?: string[];
+  options?: "date" | string[];
   default?: string;
 };
 const productInformation: Array<ProductMapType[]> = [
@@ -41,45 +48,45 @@ const productInformation: Array<ProductMapType[]> = [
       label: "Category*",
       key: "category",
       options: [
-        "wine",
-        "young_wine_in_the_process_of_fermentation",
-        "liqueur_wine",
-        "sparkling_wine",
-        "high-quality_sparkling_wine",
-        "high-quality_aromatic_sparkling_wine",
-        "carbonated_sparking_wine",
-        "pearl_wine",
-        "carbonated_pearl_wine",
-        "must",
-        "partly_fermented_must",
-        "partly_fermented_must_extracted_from_dried_grapes",
-        "concentrated_must",
-        "rectified_concentrated_must",
-        "wine_from_dried_grapes",
-        "wine_from_overripe_grapes",
+        "Wine",
+        "Young wine in the process of fermentation",
+        "Liqueur wine",
+        "Sparkling wine",
+        "High-quality sparkling wine",
+        "High-quality aromatic sparkling wine",
+        "Carbonated sparking wine",
+        "Pearl wine",
+        "Carbonated pearl wine",
+        "Must",
+        "Partly fermented must",
+        "Partly fermented must extracted from dried grapes",
+        "Concentrated must",
+        "Rectified concentrated must",
+        "Wine from dried grapes",
+        "Wine from overripe grapes",
       ],
-      default: "wine",
+      default: "Wine",
     },
     {
       label: "Sugar content",
       key: "sugarContent",
       options: [
-        "not_applicable",
-        "brut_natur",
-        "extra_brut",
-        "brut",
-        "very_dry",
-        "dry",
-        "semi-dry_wine",
-        "sweet",
+        "Not applicable",
+        "Brut natur",
+        "Extra brut",
+        "Brut",
+        "Very dry",
+        "Dry",
+        "Semi-dry wine",
+        "Sweet",
       ],
-      default: "not_applicable",
+      default: "Not applicable",
     },
     {
       label: "Type of wine*",
       key: "typeOfWine",
-      options: ["white", "red", "pink"],
-      default: "white",
+      options: ["White", "Red", "Pink"],
+      default: "White",
     },
   ],
   [
@@ -108,8 +115,77 @@ const productInformation: Array<ProductMapType[]> = [
   ],
 ];
 
+const { getAll } = useCountries();
+
+function yearsToNow(): string[] {
+  let currentYear = new Date().getFullYear();
+  let yearSpan = 200;
+  let startYear = currentYear - yearSpan;
+  let years = [];
+  for (let i = startYear; i <= currentYear; i++) {
+    years.push(i.toString());
+  }
+  return years.reverse();
+}
+
+const wineDetails: Array<ProductMapType[]> = [
+  [
+    {
+      label: "Country",
+      key: "country",
+      options: getAll().map((country) => country.label),
+      default: "a",
+    },
+    {
+      label: "Region*",
+      key: "region",
+    },
+    {
+      label: "Locality*",
+      key: "locality",
+    },
+  ],
+  [
+    {
+      label: "Year*",
+      key: "year",
+      options: yearsToNow(),
+      default: (+new Date()).toString(),
+    },
+    {
+      label: "Contents*",
+      key: "contents",
+      options: [
+        "0,25 L",
+        "0,33 L",
+        "0,375 L",
+        "0,5 L",
+        "0,75 L",
+        "1 L",
+        "1,5 L",
+        "2 L",
+        "2,5 L",
+        "3 L",
+        "5 L",
+        "6 L",
+        "9 L",
+        "10 L",
+        "12 L",
+        "15 L",
+        "18 L",
+      ],
+      default: "0,75 L",
+    },
+    {
+      label: "Package*",
+      key: "package",
+    },
+  ],
+];
+
 const fieldsMap = {
   productInformation,
+  wineDetails,
 };
 
 export { productSchema, type productSchemaType, fieldsMap };

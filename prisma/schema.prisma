@@ -31,12 +31,12 @@ model Profile {
 
 model Product {
   id              String   @id @default(cuid())
-  profileId       String
+  userId          String
   //product information
   brand           String
   name            String
   category        String   @default("wine")
-  sugarContent    String   @default("not applicable")
+  sugarContent    String   @default("not_applicable")
   typeOfWine      String   @default("white")
   gramsOfAlcohol  String
   alcoholContents String
@@ -47,17 +47,17 @@ model Product {
   videoUrl        String?
 
   //wine details
-  country             String
-  region              String
-  locality            String
-  year                String
-  contents            String
-  package             String
-  designationOfOrigin String
+  country             String?
+  region              String?
+  locality            String?
+  year                String?
+  contents            String?
+  package             String?
+  designationOfOrigin String?
 
   //protected designation of origin and geographical indication
-  pdo Boolean
-  pgi Boolean
+  pdo Boolean @default(false)
+  pgi Boolean @default(false)
 
   //ingredients
   //basic
@@ -104,18 +104,18 @@ model Product {
   carbon                    Boolean @default(false)
 
   //nutrition information
-  energyCal     String
-  energyKj      String
-  fat           String
-  saturatedFats String
-  carbohydrates String
-  sugars        String
-  proteins      String
-  salt          String
+  energyCal     String?
+  energyKj      String?
+  fat           String?
+  saturatedFats String?
+  carbohydrates String?
+  sugars        String?
+  proteins      String?
+  salt          String?
 
   //recycling materials
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile   Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }

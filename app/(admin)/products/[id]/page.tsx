@@ -1,4 +1,6 @@
+import { getProduct } from "@/actions/product";
 import ProductForm from "@/components/ProductForm";
+import { productSchemaType } from "@/schemas/product";
 import React from "react";
 
 interface ProductPageProps {
@@ -7,11 +9,13 @@ interface ProductPageProps {
   };
 }
 
-function ProductPage({ params }: ProductPageProps) {
+async function ProductPage({ params }: ProductPageProps) {
   const { id } = params;
-  let product = {};
+  let product: (productSchemaType & { id?: string }) | null = null;
   if (id !== "new") {
     //get product data
+    //@ts-ignore
+    product = await getProduct(id);
   }
 
   return (

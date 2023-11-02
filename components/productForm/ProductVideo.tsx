@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import {
   FormField,
@@ -12,18 +12,26 @@ interface ProductVideoProps {
   form: any;
 }
 function ProductVideo({ form }: ProductVideoProps) {
+  const [isValidUrl, setIsValidUrl] = useState(false);
   //https://www.youtube.com/watch?v=GznmPACXBlY
   function sanitizeUrl(url: string) {
-    if (url.includes("watch?v=")) {
+    if (url && url.includes("watch?v=")) {
       const videoId = url.split("watch?v=")[1];
       return `https://www.youtube.com/embed/${videoId}`;
     }
     return url;
   }
 
-  useEffect(() => {
-    console.log(111, form.getValues("videoUrl"));
-  }, [form]);
+  function onInputChange(e: React.ChangeEvent<HTMLInputElement>, field: any) {
+    const sanitizedUrl = sanitizeUrl(e.target.value);
+    if (sanitizedUrl.includes("embed")) {
+      setIsValidUrl(true);
+    } else {
+      setIsValidUrl(false);
+    }
+    field.onChange(sanitizedUrl);
+  }
+
   return (
     <>
       <FormField
@@ -36,6 +44,7 @@ function ProductVideo({ form }: ProductVideoProps) {
               <Input
                 {...field}
                 value={field.value ?? ""}
+                onChange={(e) => onInputChange(e, field)}
                 placeholder="YouTube video URL"
               />
             </FormControl>
@@ -45,9 +54,16 @@ function ProductVideo({ form }: ProductVideoProps) {
           </FormItem>
         )}
       />
-      <div className="max-w-md aspect-video">
-        <iframe />
-      </div>
+      {isValidUrl && (
+        <div className="max-w-md aspect-video mx-auto my-4">
+          <iframe
+            src={form.watch("videoUrl")}
+            className="border-none h-full aspect-video"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          />
+        </div>
+      )}
     </>
   );
 }

@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { Input } from "./ui/input";
+import { createProduct, updateProduct } from "@/actions/product";
 import {
   ProductMapType,
   fieldsMap,
@@ -19,25 +19,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { Save } from "lucide-react";
-import ReactSelect from "./ui/reactSelect";
 import ProductFormSection from "./productForm/ProductFormSection";
 import ProductVideo from "./productForm/ProductVideo";
 
 interface ProductFormProps {
-  product: Partial<Product>;
+  product: (productSchemaType & { id?: string }) | null;
   isNew?: boolean;
 }
 
 function ProductForm({ product, isNew = false }: ProductFormProps) {
+  let defaultValues = {};
+  if (product !== null) {
+    defaultValues = product;
+  }
   const form = useForm<productSchemaType>({
-    defaultValues: product,
+    defaultValues,
     resolver: zodResolver(productSchema),
   });
 
   async function onSubmit(values: productSchemaType) {
-    console.log(values);
-    return;
     try {
+      if (isNew) {
+        const newProduct = await createProduct(values);
+        console.log("created", newProduct);
+      } else {
+        const updatedProduct = await updateProduct(product?.id || "", values);
+        console.log("updated", updatedProduct);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -55,6 +63,11 @@ function ProductForm({ product, isNew = false }: ProductFormProps) {
           <div className="mb-8">
             <ProductVideo form={form} />
           </div>
+          <ProductFormSection
+            fieldsMap={fieldsMap.wineDetails}
+            title="Wine details"
+            form={form}
+          />
         </form>
       </Form>
       <Button
