@@ -11,9 +11,10 @@ import {
 interface ProductVideoProps {
   form: any;
 }
+
 function ProductVideo({ form }: ProductVideoProps) {
   const [isValidUrl, setIsValidUrl] = useState(false);
-  //https://www.youtube.com/watch?v=GznmPACXBlY
+
   function sanitizeUrl(url: string) {
     if (url && url.includes("watch?v=")) {
       const videoId = url.split("watch?v=")[1];
@@ -22,15 +23,19 @@ function ProductVideo({ form }: ProductVideoProps) {
     return url;
   }
 
+  function checkIfIsValidUrl(url: string): boolean {
+    return url?.includes("embed");
+  }
+
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>, field: any) {
     const sanitizedUrl = sanitizeUrl(e.target.value);
-    if (sanitizedUrl.includes("embed")) {
-      setIsValidUrl(true);
-    } else {
-      setIsValidUrl(false);
-    }
+    setIsValidUrl(checkIfIsValidUrl(sanitizedUrl));
     field.onChange(sanitizedUrl);
   }
+
+  useEffect(() => {
+    setIsValidUrl(checkIfIsValidUrl(form.getValues("videoUrl")));
+  }, []);
 
   return (
     <>
@@ -55,7 +60,7 @@ function ProductVideo({ form }: ProductVideoProps) {
         )}
       />
       {isValidUrl && (
-        <div className="max-w-md aspect-video mx-auto my-4">
+        <div className="max-w-md aspect-video mx-auto my-4 rounded-md overflow-hidden">
           <iframe
             src={form.watch("videoUrl")}
             className="border-none h-full aspect-video"

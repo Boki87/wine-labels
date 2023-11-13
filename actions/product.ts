@@ -34,7 +34,10 @@ export async function getProduct(id: string) {
   return product;
 }
 
-export async function updateProduct(id: string, data: productSchemaType) {
+export async function updateProduct(
+  id: string,
+  data: Partial<productSchemaType>
+) {
   const user = await currentUser();
   if (!user) {
     throw new UserNotFoundErr();
@@ -65,4 +68,14 @@ export async function createProduct(product: productSchemaType) {
 
   revalidatePath("/products");
   return newProduct;
+}
+
+export async function deleteProduct(id: string) {
+  const user = await currentUser();
+  if (!user) {
+    throw new UserNotFoundErr();
+  }
+
+  await db.product.delete({ where: { id } });
+  revalidatePath("/products");
 }

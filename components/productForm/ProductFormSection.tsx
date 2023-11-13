@@ -33,7 +33,7 @@ export default function ProductFormSection({
         const cols = row.length;
         return (
           <div
-            className={`grid grid-cols-1 md:grid-cols-${cols} gap-4 mb-8`}
+            className={cn(`grid grid-cols-1 md:grid-cols-${cols} gap-4 mb-8`)}
             key={index + "_" + title}
           >
             {row.map((el: ProductMapType, index) => {

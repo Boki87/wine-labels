@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Select, { GroupBase, OptionsOrGroups } from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 export type ReactSelectValue = {
   label: string;
@@ -12,6 +13,7 @@ interface ReactSelectProps {
   defaultVal?: ReactSelectValue;
   options: OptionsOrGroups<ReactSelectValue, GroupBase<ReactSelectValue>>;
   onChange: (value: ReactSelectValue) => void;
+  isCreatable?: boolean;
 }
 
 function ReactSelect({
@@ -19,10 +21,14 @@ function ReactSelect({
   defaultVal,
   options,
   onChange,
+  isCreatable = false,
+  ...props
 }: ReactSelectProps) {
+  const Comp = isCreatable ? CreatableSelect : Select;
+
   return (
     <div>
-      <Select
+      <Comp
         options={options}
         defaultValue={value ?? defaultVal}
         onChange={(value) => onChange(value as ReactSelectValue)}
@@ -38,6 +44,7 @@ function ReactSelect({
           },
         })}
         instanceId={React.useId()}
+        {...props}
       />
     </div>
   );

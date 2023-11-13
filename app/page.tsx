@@ -1,9 +1,17 @@
 import Link from "next/link";
+import { currentUser } from "@clerk/nextjs";
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser();
+
   return (
     <main>
-      Landing Page <Link href="/sign-in">Sign in</Link>
+      Landing Page{" "}
+      {!user ? (
+        <Link href="/sign-in">Sign in</Link>
+      ) : (
+        <Link href="/profile">Dashboard</Link>
+      )}
     </main>
   );
 }

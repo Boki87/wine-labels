@@ -44,25 +44,25 @@ model Product {
   gtin            String
   lot             String
   images          String[]
-  videoUrl        String?
+  videoUrl        String?  @default("")
 
   //wine details
-  country             String?
-  region              String?
-  locality            String?
-  year                String?
-  contents            String?
-  package             String?
-  designationOfOrigin String?
+  country  String?
+  region   String?
+  locality String?
+  year     String?
+  contents String?
+  package  String?
 
   //protected designation of origin and geographical indication
-  pdo Boolean @default(false)
-  pgi Boolean @default(false)
+  designationOfOrigin String?
+  pdo                 Boolean @default(false)
+  pgi                 Boolean @default(false)
 
   //ingredients
   //basic
   grape                     Boolean @default(false)
-  sucorse                   Boolean @default(false)
+  sucrose                   Boolean @default(false)
   concentratedGrapeMust     Boolean @default(false)
   tirageLiquor              Boolean @default(false)
   //acidity regulators
@@ -86,8 +86,8 @@ model Product {
   //stabilizing agents
   potassiumHydrogenTartrate Boolean @default(false)
   citricAcid                Boolean @default(false)
-  Tannins                   Boolean @default(false)
-  Histamine                 Boolean @default(false)
+  tannins                   Boolean @default(false)
+  histamine                 Boolean @default(false)
   potassiumFerrocyanide     Boolean @default(false)
   calciumPhytate            Boolean @default(false)
   metatarrtaricAcid         Boolean @default(false)
@@ -114,6 +114,14 @@ model Product {
   salt          String?
 
   //recycling materials
+  bottle   String? @default("")
+  cork     String? @default("")
+  capsule  String? @default("")
+  muselete String? @default("")
+  box      String? @default("")
+  case     String? @default("")
+  wrapper  String? @default("")
+  can      String? @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
