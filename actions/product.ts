@@ -27,7 +27,7 @@ export async function getProduct(id: string) {
   }
 
   const product = await db.product.findUnique({ where: { id } });
-
+  console.log(product);
   //check if user is owner of product
   if (product?.userId !== user.id) throw new Error("Not allowed to load asset");
 

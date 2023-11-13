@@ -1,3 +1,4 @@
+import { getProduct } from "@/actions/product";
 import React from "react";
 
 interface LabelPageProps {
@@ -6,9 +7,14 @@ interface LabelPageProps {
   };
 }
 
-function LabelPage({ params }: LabelPageProps) {
+async function LabelPage({ params }: LabelPageProps) {
   const { id } = params;
-  return <div>LabelPage {id}</div>;
+  const product = await getProduct(id);
+  return (
+    <div>
+      LabelPage {id} {JSON.stringify(product)}
+    </div>
+  );
 }
 
 export default LabelPage;
