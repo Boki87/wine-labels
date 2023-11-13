@@ -10,11 +10,7 @@ interface LabelPageProps {
 async function LabelPage({ params }: LabelPageProps) {
   const { id } = params;
   const product = await getProduct(id);
-  return (
-    <div>
-      LabelPage {id} {JSON.stringify(product)}
-    </div>
-  );
+  return <div>{JSON.stringify(product)}</div>;
 }
 
 export default LabelPage;
