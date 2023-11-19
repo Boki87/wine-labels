@@ -21,7 +21,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import ProductImageUpload from "./productForm/ProductImageUpload";
-import { destroyImage, uploadImages } from "@/lib/uploadImages";
+import { uploadImages } from "@/lib/uploadImages";
 import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 
@@ -110,7 +110,7 @@ function ProductForm({ product, isNew = false }: ProductFormProps) {
   }, [form.getValues("images")]);
 
   return (
-    <div className="max-w-4xl mx-auto overflow-hidden px-2">
+    <div className="max-w-4xl mx-auto overflow-hidden px-2 pb-14">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <ProductFormSection
@@ -237,7 +237,7 @@ function ProductForm({ product, isNew = false }: ProductFormProps) {
         </form>
       </Form>
       <Button
-        className="min-w-[120px] gap-2"
+        className="min-w-[120px] gap-2 mt-4"
         onClick={form.handleSubmit(onSubmit)}
         disabled={form.formState.isSubmitting}
         loading={form.formState.isSubmitting}

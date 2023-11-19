@@ -42,7 +42,7 @@ function downloadSVG(svgData: string, fileName: string) {
 
   // Create a data URI for the SVG
   const svgDataUri = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-    svgXml
+    svgXml,
   )}`;
 
   // Create a download link

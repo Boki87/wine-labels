@@ -1,11 +1,11 @@
 import { ProductMapType } from "@/schemas/product";
 import { Input } from "../ui/input";
 import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormControl,
+    FormMessage,
 } from "../ui/form";
 import ReactSelect from "../ui/reactSelect";
 import { Calendar } from "../ui/calendar";
@@ -16,77 +16,102 @@ import { CalendarIcon } from "lucide-react";
 import { Button } from "../ui/button";
 
 interface ProductFormSectionProps {
-  fieldsMap: Array<ProductMapType[]>;
-  title: string;
-  form: any;
+    fieldsMap: Array<ProductMapType[]>;
+    title: string;
+    form: any;
 }
 
 export default function ProductFormSection({
-  fieldsMap,
-  title,
-  form,
+    fieldsMap,
+    title,
+    form,
 }: ProductFormSectionProps) {
-  return (
-    <>
-      <h2 className="font-bold text-lg mb-1 mt-6">{title}</h2>
-      {fieldsMap.map((row, index) => {
-        const cols = row.length;
-        return (
-          <div
-            className={cn(`grid grid-cols-1 md:grid-cols-${cols} gap-4 mb-8`)}
-            key={index + "_" + title}
-          >
-            {row.map((el: ProductMapType, index) => {
-              if (el.key === "images") return null;
-              return (
-                <FormField
-                  control={form.control}
-                  name={el.key}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{el.label}</FormLabel>
-                      {el.options && el.options !== "date" && (
-                        <FormControl>
-                          <ReactSelect
-                            value={{
-                              label:
-                                el.options.find(
-                                  (opt) => opt === form.getValues()[el.key]
-                                ) || el.options[0],
-                              value: form.getValues()[el.key] || el.default,
-                            }}
-                            options={el.options.map((opt) => ({
-                              label: opt,
-                              value: opt,
-                            }))}
-                            onChange={(val) => {
-                              if (!val) return;
-                              form.setValue(el.key, val.value);
-                            }}
-                          />
-                        </FormControl>
-                      )}
-                      {!el.options && (
-                        <FormControl>
-                          <Input {...field} value={field.value ?? ""} />
-                        </FormControl>
-                      )}
-                      {el.options && el.options === "date" && (
-                        <FormControl>
-                          {/* TODO: add date select */}
-                          <input type="date" />
-                        </FormControl>
-                      )}
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                  key={index}
-                />
-              );
+    return (
+        <>
+            <h2 className="font-bold text-lg mb-1 mt-6">{title}</h2>
+            {fieldsMap.map((row, index) => {
+                const cols = row.length;
+                return (
+                    <div
+                        className={cn(`grid grid-cols-1 md:grid-cols-${cols} gap-4 mb-8`)}
+                        key={index + "_" + title}
+                    >
+                        {row.map((el: ProductMapType, index) => {
+                            if (el.key === "images") return null;
+                            return (
+                                <FormField
+                                    control={form.control}
+                                    name={el.key}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>{el.label}</FormLabel>
+                                            {el.options && el.options !== "date" && (
+                                                <FormControl>
+                                                    <ReactSelect
+                                                        value={{
+                                                            label:
+                                                                el.options.find(
+                                                                    (opt) => opt === form.getValues()[el.key]
+                                                                ) || el.options[0],
+                                                            value: form.getValues()[el.key] || el.default,
+                                                        }}
+                                                        options={el.options.map((opt) => ({
+                                                            label: opt,
+                                                            value: opt,
+                                                        }))}
+                                                        onChange={(val) => {
+                                                            if (!val) return;
+                                                            form.setValue(el.key, val.value);
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            )}
+                                            {!el.options && (
+                                                <FormControl>
+                                                    <Input {...field} value={field.value ?? ""} />
+                                                </FormControl>
+                                            )}
+                                            {el.options && el.options === "date" && (
+                                                <Popover>
+                                                    <PopoverTrigger asChild>
+                                                        <FormControl>
+                                                            <Button
+                                                                variant="outline"
+                                                                className={cn(
+                                                                    "w-full text-left font-normal",
+                                                                    !field.value && "text-muted-foreground"
+                                                                )}
+                                                            >
+
+                                                                {field.value ? (
+                                                                    format(field.value, "PPP")
+                                                                ) : (
+                                                                    <span>Pick a date</span>
+                                                                )}
+                                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                            </Button>
+                                                        </FormControl>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent className="w-auto p-0" align="start">
+                                                        <Calendar
+                                                            mode="single"
+                                                            selected={field.value}
+                                                            onSelect={field.onChange}
+                                                            initialFocus
+                                                        />
+                                                    </PopoverContent>
+                                                </Popover>
+                                            )}
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                    key={index}
+                                />
+                            );
+                        })}
+                    </div>
+                );
             })}
-          </div>
-        );
-      })}
-    </>
-  );
+        </>
+    );
 }

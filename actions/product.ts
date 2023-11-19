@@ -5,77 +5,78 @@ import { currentUser } from "@clerk/nextjs";
 import { Product } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-class UserNotFoundErr extends Error {}
+class UserNotFoundErr extends Error { }
 
 export async function getProducts() {
-  const user = await currentUser();
-  if (!user) {
-    throw new UserNotFoundErr();
-  }
+	const user = await currentUser();
 
-  return await db.product.findMany({
-    where: {
-      userId: user.id,
-    },
-  });
+	if (!user) {
+		throw new UserNotFoundErr();
+	}
+
+	return await db.product.findMany({
+		where: {
+			userId: user.id,
+		},
+	});
 }
 
 export async function getProduct(id: string) {
-  const user = await currentUser();
-  if (!user) {
-    throw new UserNotFoundErr();
-  }
+	const user = await currentUser();
+	if (!user) {
+		throw new UserNotFoundErr();
+	}
 
-  const product = await db.product.findUnique({ where: { id } });
-  console.log(product);
-  //check if user is owner of product
-  if (product?.userId !== user.id) throw new Error("Not allowed to load asset");
+	const product = await db.product.findUnique({ where: { id } });
+	console.log(product);
+	//check if user is owner of product
+	if (product?.userId !== user.id) throw new Error("Not allowed to load asset");
 
-  return product;
+	return product;
 }
 
 export async function updateProduct(
-  id: string,
-  data: Partial<productSchemaType>
+	id: string,
+	data: Partial<productSchemaType>
 ) {
-  const user = await currentUser();
-  if (!user) {
-    throw new UserNotFoundErr();
-  }
+	const user = await currentUser();
+	if (!user) {
+		throw new UserNotFoundErr();
+	}
 
-  const product = await db.product.findUnique({ where: { id } });
+	const product = await db.product.findUnique({ where: { id } });
 
-  //check if user is owner of product
-  if (product?.userId !== user.id) throw new Error("Not allowed to load asset");
+	//check if user is owner of product
+	if (product?.userId !== user.id) throw new Error("Not allowed to load asset");
 
-  const updatedProduct = await db.product.update({ data, where: { id } });
-  revalidatePath("/products");
-  return updatedProduct;
+	const updatedProduct = await db.product.update({ data, where: { id } });
+	revalidatePath("/products");
+	return updatedProduct;
 }
 
 export async function createProduct(product: productSchemaType) {
-  const user = await currentUser();
-  if (!user) {
-    throw new UserNotFoundErr();
-  }
+	const user = await currentUser();
+	if (!user) {
+		throw new UserNotFoundErr();
+	}
 
-  const newProduct = await db.product.create({
-    data: {
-      ...product,
-      userId: user.id,
-    },
-  });
+	const newProduct = await db.product.create({
+		data: {
+			...product,
+			userId: user.id,
+		},
+	});
 
-  revalidatePath("/products");
-  return newProduct;
+	revalidatePath("/products");
+	return newProduct;
 }
 
 export async function deleteProduct(id: string) {
-  const user = await currentUser();
-  if (!user) {
-    throw new UserNotFoundErr();
-  }
+	const user = await currentUser();
+	if (!user) {
+		throw new UserNotFoundErr();
+	}
 
-  await db.product.delete({ where: { id } });
-  revalidatePath("/products");
+	await db.product.delete({ where: { id } });
+	revalidatePath("/products");
 }

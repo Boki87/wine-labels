@@ -2,128 +2,128 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+    provider = "postgresql"
+    url      = env("POSTGRES_PRISMA_URL")
 }
 
 model Profile {
-  id                          String   @id @default(cuid())
-  userId                      String   @unique
-  firstName                   String
-  lastName                    String?
-  email                       String
-  companyName                 String?
-  companyIdentificationNumber String?
-  gln                         String?
-  companyAddress              String?
-  zip                         String?
-  city                        String?
-  country                     String?
-  createdAt                   DateTime @default(now())
-  updatedAt                   DateTime @updatedAt
+    id                          String   @id @default(cuid())
+    userId                      String   @unique
+    firstName                   String
+    lastName                    String?
+    email                       String
+    companyName                 String?
+    companyIdentificationNumber String?
+    gln                         String?
+    companyAddress              String?
+    zip                         String?
+    city                        String?
+    country                     String?
+    createdAt                   DateTime @default(now())
+    updatedAt                   DateTime @updatedAt
 
-  Product Product[]
+    Product Product[]
 }
 
 model Product {
-  id              String   @id @default(cuid())
-  userId          String
-  //product information
-  brand           String
-  name            String
-  category        String   @default("wine")
-  sugarContent    String   @default("not_applicable")
-  typeOfWine      String   @default("white")
-  gramsOfAlcohol  String
-  alcoholContents String
-  bestBefore      String?
-  gtin            String
-  lot             String
-  images          String[]
-  videoUrl        String?  @default("")
+    id              String    @id @default(cuid())
+    userId          String
+    //product information
+    brand           String
+    name            String
+    category        String    @default("wine")
+    sugarContent    String    @default("not_applicable")
+    typeOfWine      String    @default("white")
+    gramsOfAlcohol  String
+    alcoholContents String
+    bestBefore      DateTime?
+    gtin            String
+    lot             String
+    images          String[]
+    videoUrl        String?   @default("")
 
-  //wine details
-  country  String?
-  region   String?
-  locality String?
-  year     String?
-  contents String?
-  package  String?
+    //wine details
+    country  String?
+    region   String?
+    locality String?
+    year     String?
+    contents String?
+    package  String?
 
-  //protected designation of origin and geographical indication
-  designationOfOrigin String?
-  pdo                 Boolean @default(false)
-  pgi                 Boolean @default(false)
+    //protected designation of origin and geographical indication
+    designationOfOrigin String?
+    pdo                 Boolean @default(false)
+    pgi                 Boolean @default(false)
 
-  //ingredients
-  //basic
-  grape                     Boolean @default(false)
-  sucrose                   Boolean @default(false)
-  concentratedGrapeMust     Boolean @default(false)
-  tirageLiquor              Boolean @default(false)
-  //acidity regulators
-  tartaricAcid              Boolean @default(false)
-  malicAcid                 Boolean @default(false)
-  lacticAcid                Boolean @default(false)
-  potassiumTartrate         Boolean @default(false)
-  potassiumBicarbonate      Boolean @default(false)
-  calciumCarbonate          Boolean @default(false)
-  calciumTartrate           Boolean @default(false)
-  calciumSulphate           Boolean @default(false)
-  potassiumCarbonate        Boolean @default(false)
-  //preservatives and antioxidants
-  sulphurDioxide            Boolean @default(false)
-  potassiumBisulphite       Boolean @default(false)
-  potassiumMetabisulphite   Boolean @default(false)
-  potassiumSorbate          Boolean @default(false)
-  lyusozyme                 Boolean @default(false)
-  lAscorbicAcid             Boolean @default(false)
-  dimethylDicarbonate       Boolean @default(false)
-  //stabilizing agents
-  potassiumHydrogenTartrate Boolean @default(false)
-  citricAcid                Boolean @default(false)
-  tannins                   Boolean @default(false)
-  histamine                 Boolean @default(false)
-  potassiumFerrocyanide     Boolean @default(false)
-  calciumPhytate            Boolean @default(false)
-  metatarrtaricAcid         Boolean @default(false)
-  gumArabic                 Boolean @default(false)
-  neutralPotassiumSalt      Boolean @default(false)
-  yeastMannoproteins        Boolean @default(false)
-  carboxymethylcellulose    Boolean @default(false)
-  pviPvp                    Boolean @default(false)
-  potassiumPolyspartate     Boolean @default(false)
-  //gases and packaging gases
-  nitroget                  Boolean @default(false)
-  argon                     Boolean @default(false)
-  oxygen                    Boolean @default(false)
-  carbon                    Boolean @default(false)
+    //ingredients
+    //basic
+    grape                     Boolean @default(false)
+    sucrose                   Boolean @default(false)
+    concentratedGrapeMust     Boolean @default(false)
+    tirageLiquor              Boolean @default(false)
+    //acidity regulators
+    tartaricAcid              Boolean @default(false)
+    malicAcid                 Boolean @default(false)
+    lacticAcid                Boolean @default(false)
+    potassiumTartrate         Boolean @default(false)
+    potassiumBicarbonate      Boolean @default(false)
+    calciumCarbonate          Boolean @default(false)
+    calciumTartrate           Boolean @default(false)
+    calciumSulphate           Boolean @default(false)
+    potassiumCarbonate        Boolean @default(false)
+    //preservatives and antioxidants
+    sulphurDioxide            Boolean @default(false)
+    potassiumBisulphite       Boolean @default(false)
+    potassiumMetabisulphite   Boolean @default(false)
+    potassiumSorbate          Boolean @default(false)
+    lyusozyme                 Boolean @default(false)
+    lAscorbicAcid             Boolean @default(false)
+    dimethylDicarbonate       Boolean @default(false)
+    //stabilizing agents
+    potassiumHydrogenTartrate Boolean @default(false)
+    citricAcid                Boolean @default(false)
+    tannins                   Boolean @default(false)
+    histamine                 Boolean @default(false)
+    potassiumFerrocyanide     Boolean @default(false)
+    calciumPhytate            Boolean @default(false)
+    metatarrtaricAcid         Boolean @default(false)
+    gumArabic                 Boolean @default(false)
+    neutralPotassiumSalt      Boolean @default(false)
+    yeastMannoproteins        Boolean @default(false)
+    carboxymethylcellulose    Boolean @default(false)
+    pviPvp                    Boolean @default(false)
+    potassiumPolyspartate     Boolean @default(false)
+    //gases and packaging gases
+    nitroget                  Boolean @default(false)
+    argon                     Boolean @default(false)
+    oxygen                    Boolean @default(false)
+    carbon                    Boolean @default(false)
 
-  //nutrition information
-  energyCal     String?
-  energyKj      String?
-  fat           String?
-  saturatedFats String?
-  carbohydrates String?
-  sugars        String?
-  proteins      String?
-  salt          String?
+    //nutrition information
+    energyCal     String?
+    energyKj      String?
+    fat           String?
+    saturatedFats String?
+    carbohydrates String?
+    sugars        String?
+    proteins      String?
+    salt          String?
 
-  //recycling materials
-  bottle   String? @default("")
-  cork     String? @default("")
-  capsule  String? @default("")
-  muselete String? @default("")
-  box      String? @default("")
-  case     String? @default("")
-  wrapper  String? @default("")
-  can      String? @default("")
+    //recycling materials
+    bottle   String? @default("")
+    cork     String? @default("")
+    capsule  String? @default("")
+    muselete String? @default("")
+    box      String? @default("")
+    case     String? @default("")
+    wrapper  String? @default("")
+    can      String? @default("")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profile   Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    profile   Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
