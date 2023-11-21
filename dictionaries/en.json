@@ -1,0 +1,17 @@
+{
+    "Profile" : {
+      "user_details": "User details",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "company_details": "Company details",
+      "company_name": "Company Name",
+      "company_id": "Company identification number",
+      "gln": "GLN",
+      "address": "Address",
+      "zip": "ZIP",
+      "city": "City",
+      "country": "Country",
+      "submit_btn": "Update details"
+  }
+}

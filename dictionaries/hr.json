@@ -1,0 +1,17 @@
+{
+  "Profile": {
+    "user_details": "Detalji o korisniku",
+    "first_name": "Ime",
+    "last_name": "Prezime",
+    "email": "Email",
+    "company_details": "Detalji o firmi",
+    "company_name": "Ime firme",
+    "company_id": "Identifikacioni broj firme",
+    "gln": "GLN",
+    "address": "Adresa",
+    "zip": "Postanski broj",
+    "city": "Grad",
+    "country": "Drzava",
+    "submit_btn": "Sacuvaj promene"
+  }
+}

@@ -17,12 +17,14 @@ import { updateProfile } from "@/actions/profile";
 import CountrySelect from "@/components/CountrySelect";
 import useCountries from "@/hooks/useCountries";
 import { Save } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ProfileFormProps {
   profile: Profile;
 }
 
 function ProfileForm({ profile }: ProfileFormProps) {
+  const t = useTranslations("Profile");
   const form = useForm<profileSchemaType>({
     defaultValues: profile,
     resolver: zodResolver(profileSchema),
@@ -37,7 +39,6 @@ function ProfileForm({ profile }: ProfileFormProps) {
       console.log(e);
     }
   }
-
   return (
     <div className="max-w-4xl mx-auto">
       <Form {...form}>
@@ -49,7 +50,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name*</FormLabel>
+                  <FormLabel>{t("first_name")}*</FormLabel>
                   <FormControl>
                     <Input {...field} value={field.value ?? ""} />
                   </FormControl>
@@ -62,7 +63,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>{t("last_name")}</FormLabel>
                   <FormControl>
                     <Input {...field} value={field.value ?? ""} />
                   </FormControl>
@@ -75,7 +76,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("email")}</FormLabel>
                   <FormControl>
                     <Input {...field} value={field.value ?? ""} />
                   </FormControl>
@@ -91,7 +92,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               name="companyName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Company Name</FormLabel>
+                  <FormLabel>{t("company_name")}</FormLabel>
                   <FormControl>
                     <Input {...field} value={field.value ?? ""} />
                   </FormControl>
@@ -106,7 +107,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
                 <FormItem>
                   <div className="truncate">
                     <FormLabel className="truncate">
-                      Company identification number
+                      {t("company_id")}
                     </FormLabel>
                   </div>
                   <FormControl>
@@ -121,7 +122,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               name="gln"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>GLN</FormLabel>
+                  <FormLabel>{t("gln")}</FormLabel>
                   <FormControl>
                     <Input {...field} value={field.value ?? ""} />
                   </FormControl>
@@ -136,7 +137,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               name="companyAddress"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Address</FormLabel>
+                  <FormLabel>{t("address")}</FormLabel>
                   <FormControl>
                     <Input {...field} value={field.value ?? ""} />
                   </FormControl>
@@ -149,7 +150,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               name="zip"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ZIP</FormLabel>
+                  <FormLabel>{t("zip")}</FormLabel>
                   <FormControl>
                     <Input {...field} value={field.value ?? ""} />
                   </FormControl>
@@ -162,7 +163,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>City</FormLabel>
+                  <FormLabel>{t("city")}</FormLabel>
                   <FormControl>
                     <Input {...field} value={field.value ?? ""} />
                   </FormControl>
@@ -171,7 +172,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
               )}
             />
             <FormItem>
-              <FormLabel>Country</FormLabel>
+              <FormLabel>{t("country")}</FormLabel>
               <FormControl>
                 <CountrySelect
                   value={getByValue(form.getValues().country ?? "")}
@@ -193,7 +194,7 @@ function ProfileForm({ profile }: ProfileFormProps) {
         loading={form.formState.isSubmitting}
       >
         <Save />
-        <span>Update details</span>
+        <span>{t("submit_btn")}</span>
       </Button>
     </div>
   );

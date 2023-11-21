@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 
 async function ProfilePage() {
   const profile = await getProfile();
+
   return (
     <div>
       <ClientOnly>
